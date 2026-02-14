@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Human WiFi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <nav class="admin-nav">
+            <div class="logo">
+                <span class="wifi-icon">📡</span>
+                <span class="logo-text">Human WiFi</span>
+                <span class="admin-badge">Admin</span>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-export" onclick="exportData()">📊 Export Data</button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </nav>
+
+        <main class="admin-main">
+            <div class="page-header">
+                <h1>Community Health Dashboard</h1>
+                <p class="subtitle">Real-time insights into campus connections</p>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-card primary">
+                    <div class="metric-icon">👥</div>
+                    <div class="metric-content">
+                        <div class="metric-label">Total Users</div>
+                        <div class="metric-value" id="totalUsers">2,847</div>
+                        <div class="metric-change positive">+12% this week</div>
+                    </div>
+                </div>
+                <div class="metric-card success">
+                    <div class="metric-icon">🤝</div>
+                    <div class="metric-content">
+                        <div class="metric-label">Total Matches</div>
+                        <div class="metric-value" id="totalMatches">1,243</div>
+                        <div class="metric-change positive">+8% this week</div>
+                    </div>
+                </div>
+                <div class="metric-card warning">
+                    <div class="metric-icon">🎯</div>
+                    <div class="metric-content">
+                        <div class="metric-label">Active Rooms</div>
+                        <div class="metric-value" id="activeRooms">15</div>
+                        <div class="metric-change neutral">Stable</div>
+                    </div>
+                </div>
+                <div class="metric-card info">
+                    <div class="metric-icon">💬</div>
+                    <div class="metric-content">
+                        <div class="metric-label">Connection Score</div>
+                        <div class="metric-value" id="connectionScore">87%</div>
+                        <div class="metric-change positive">+5% this month</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loneliness Index -->
+            <div class="insights-grid">
+                <div class="insight-card wide">
+                    <div class="card-header">
+                        <h3>Loneliness Index Trend</h3>
+                        <select class="time-filter" id="lonelinessFilter">
+                            <option value="week">Last Week</option>
+                            <option value="month" selected>Last Month</option>
+                            <option value="quarter">Last Quarter</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="lonelinessChart"></canvas>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background: #FF6B6B;"></span>
+                            Loneliness Index
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background: #4ECDC4;"></span>
+                            Connection Rate
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="card-header">
+                        <h3>Top Interests</h3>
+                    </div>
+                    <div class="interests-ranking">
+                        <div class="rank-item">
+                            <div class="rank-number">1</div>
+                            <div class="rank-info">
+                                <div class="rank-name">AI & Machine Learning</div>
+                                <div class="rank-count">847 users</div>
+                            </div>
+                            <div class="rank-bar">
+                                <div class="rank-fill" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="rank-item">
+                            <div class="rank-number">2</div>
+                            <div class="rank-info">
+                                <div class="rank-name">Coding & Development</div>
+                                <div class="rank-count">723 users</div>
+                            </div>
+                            <div class="rank-bar">
+                                <div class="rank-fill" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="rank-item">
+                            <div class="rank-number">3</div>
+                            <div class="rank-info">
+                                <div class="rank-name">Music</div>
+                                <div class="rank-count">612 users</div>
+                            </div>
+                            <div class="rank-bar">
+                                <div class="rank-fill" style="width: 72%;"></div>
+                            </div>
+                        </div>
+                        <div class="rank-item">
+                            <div class="rank-number">4</div>
+                            <div class="rank-info">
+                                <div class="rank-name">Gaming</div>
+                                <div class="rank-count">548 users</div>
+                            </div>
+                            <div class="rank-bar">
+                                <div class="rank-fill" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div class="rank-item">
+                            <div class="rank-number">5</div>
+                            <div class="rank-info">
+                                <div class="rank-name">Sports</div>
+                                <div class="rank-count">421 users</div>
+                            </div>
+                            <div class="rank-bar">
+                                <div class="rank-fill" style="width: 50%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real-time Activity -->
+            <div class="activity-section">
+                <div class="card-header">
+                    <h3>Real-Time Activity</h3>
+                    <div class="status-indicator">
+                        <span class="pulse-dot"></span>
+                        Live
+                    </div>
+                </div>
+                <div class="activity-grid">
+                    <div class="activity-card">
+                        <div class="activity-icon">🚀</div>
+                        <div class="activity-content">
+                            <div class="activity-title">New Match</div>
+                            <div class="activity-desc">Sarah & Alex matched in HACK2026</div>
+                            <div class="activity-time">2 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">🎉</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Connection Made</div>
+                            <div class="activity-desc">John & Emma met face-to-face</div>
+                            <div class="activity-time">5 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">📍</div>
+                        <div class="activity-content">
+                            <div class="activity-title">New Room Created</div>
+                            <div class="activity-desc">LIBRARY now has 12 active users</div>
+                            <div class="activity-time">8 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">💡</div>
+                        <div class="activity-content">
+                            <div class="activity-title">High Match Score</div>
+                            <div class="activity-desc">95% compatibility detected</div>
+                            <div class="activity-time">12 minutes ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Analytics -->
+            <div class="rooms-section">
+                <div class="card-header">
+                    <h3>Active Rooms</h3>
+                </div>
+                <div class="rooms-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Room Code</th>
+                                <th>Active Users</th>
+                                <th>Matches Made</th>
+                                <th>Avg Match Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roomsTableBody">
+                            <tr>
+                                <td><span class="room-code">HACK2026</span></td>
+                                <td>47</td>
+                                <td>23</td>
+                                <td>82%</td>
+                                <td><span class="status-badge active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="room-code">CAMPUS101</span></td>
+                                <td>35</td>
+                                <td>18</td>
+                                <td>78%</td>
+                                <td><span class="status-badge active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="room-code">COWORK</span></td>
+                                <td>28</td>
+                                <td>14</td>
+                                <td>85%</td>
+                                <td><span class="status-badge active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="room-code">LIBRARY</span></td>
+                                <td>12</td>
+                                <td>6</td>
+                                <td>90%</td>
+                                <td><span class="status-badge moderate">Moderate</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="room-code">CAFETERIA</span></td>
+                                <td>8</td>
+                                <td>3</td>
+                                <td>76%</td>
+                                <td><span class="status-badge low">Low</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
