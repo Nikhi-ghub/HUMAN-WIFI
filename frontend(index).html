@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human WiFi - Real Connections, Real Life</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="landing-container">
+        <div class="waves-bg"></div>
+        
+        <nav class="nav">
+            <div class="logo">
+                <span class="wifi-icon">📡</span>
+                <span class="logo-text">Human WiFi</span>
+            </div>
+            <div class="nav-links">
+                <a href="#how" class="nav-link">How It Works</a>
+                <a href="#impact" class="nav-link">Impact</a>
+            </div>
+        </nav>
+
+        <main class="hero">
+            <div class="hero-content">
+                <div class="badge">Real Connections • Real Impact</div>
+                <h1 class="hero-title">
+                    Stop Scrolling.<br>
+                    <span class="gradient-text">Start Talking.</span>
+                </h1>
+                <p class="hero-subtitle">
+                    We detect isolation in physical spaces and intelligently connect you with compatible people nearby. 
+                    Because the best conversations happen face-to-face.
+                </p>
+                
+                <div class="auth-container">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" data-tab="login">Sign In</button>
+                        <button class="auth-tab" data-tab="signup">Join Now</button>
+                    </div>
+
+                    <form id="loginForm" class="auth-form active">
+                        <div class="form-group">
+                            <label>Email or Username</label>
+                            <input type="text" id="loginUsername" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="loginPassword" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            Sign In
+                            <span class="btn-arrow">→</span>
+                        </button>
+                    </form>
+
+                    <form id="signupForm" class="auth-form">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="signupName" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="signupEmail" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="signupPassword" placeholder="••••••••" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Interests (comma separated)</label>
+                            <input type="text" id="signupInterests" placeholder="AI, Cricket, Coding, Music" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Current Mood</label>
+                            <select id="signupMood" required>
+                                <option value="">Select your mood</option>
+                                <option value="energized">🚀 Energized & Ready</option>
+                                <option value="calm">😌 Calm & Relaxed</option>
+                                <option value="curious">🤔 Curious & Exploring</option>
+                                <option value="lonely">😔 Feeling Isolated</option>
+                                <option value="focused">🎯 Focused & Productive</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>I'm here to...</label>
+                            <select id="signupPurpose" required>
+                                <option value="">Select your purpose</option>
+                                <option value="study">📚 Find Study Buddies</option>
+                                <option value="network">🤝 Professional Networking</option>
+                                <option value="collaborate">💡 Collaborate on Projects</option>
+                                <option value="socialize">🎉 Make New Friends</option>
+                                <option value="mentor">🎓 Find Mentors/Mentees</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            Create Account
+                            <span class="btn-arrow">→</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-number">2,847</div>
+                        <div class="stat-label">Connections Made</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">94%</div>
+                        <div class="stat-label">Felt Less Isolated</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Active Campuses</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="connection-demo">
+                    <div class="person-node node-1">
+                        <div class="avatar">🧑‍💻</div>
+                        <div class="ping"></div>
+                    </div>
+                    <div class="person-node node-2">
+                        <div class="avatar">👨‍🎓</div>
+                        <div class="ping"></div>
+                    </div>
+                    <div class="person-node node-3">
+                        <div class="avatar">👩‍💼</div>
+                        <div class="ping"></div>
+                    </div>
+                    <div class="person-node node-4">
+                        <div class="avatar">🧑‍🔬</div>
+                        <div class="ping"></div>
+                    </div>
+                    <svg class="connection-lines">
+                        <line x1="50%" y1="30%" x2="50%" y2="70%" class="connection-line" />
+                        <line x1="30%" y1="50%" x2="70%" y2="50%" class="connection-line" />
+                        <line x1="35%" y1="35%" x2="65%" y2="65%" class="connection-line" />
+                    </svg>
+                </div>
+            </div>
+        </main>
+
+        <section id="how" class="how-it-works">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Check In</h3>
+                    <p>Share your mood, interests, and what you're looking for today</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Smart Match</h3>
+                    <p>We find compatible people nearby in the same physical space</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Ice Breaker</h3>
+                    <p>Get conversation starters based on your shared interests</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Real Connection</h3>
+                    <p>Meet face-to-face and build genuine human relationships</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="impact" class="impact">
+            <div class="impact-content">
+                <h2 class="section-title">Real World Impact</h2>
+                <p class="impact-text">
+                    We don't want people to scroll more. We want them to <strong>talk more</strong>.
+                    Human WiFi turns digital technology into a real-world human bonding engine.
+                </p>
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <div class="impact-icon">🎓</div>
+                        <h4>For Students</h4>
+                        <p>Combat campus loneliness and find study groups organically</p>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon">🏢</div>
+                        <h4>For Companies</h4>
+                        <p>Improve employee connection and reduce remote work isolation</p>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon">🎪</div>
+                        <h4>For Events</h4>
+                        <p>Transform awkward networking into meaningful conversations</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
