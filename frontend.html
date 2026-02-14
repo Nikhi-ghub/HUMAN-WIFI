@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Campus Issue Desk</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:"Segoe UI",Arial;
+  background:linear-gradient(135deg,#0f3d2e,#0b3c5d);
+}
+button{padding:10px;border:none;cursor:pointer}
+.hidden{display:none}
+header{
+  background:#062f4f;
+  color:#fff;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+}
+header button{
+  background:#0f3d2e;
+  color:#fff;
+  margin-left:5px;
+}
+.container{
+  max-width:1000px;
+  margin:25px auto;
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:15px
+}
+th,td{
+  border:1px solid #ccc;
+  padding:8px
+}
+th{
+  background:#1b98f8;
+  color:#efefef
+}
+.badge{
+  padding:4px 8px;
+  color:#fff;
+  border-radius:4px
+}
+.Pending{background:#ffef11}
+.Solved{background:#25df25}
+.Rejected{background:#d81e18}
+.login-box{
+  width:350px;
+  margin:80px auto;
+  background:#fff;
+  padding:25px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3)
+}
+.login-box input{
+  width:100%;
+  padding:10px;
+  margin:10px 0
+}
+.approve{
+  background:green;
+  color:#fff
+}
+.reject{
+  background:red;
+  color:#fff
+}
+textarea{width:100%}
+</style>
+</head>
+
+<body>
+
+<header>
+  <b>CAMPUS ISSUE DESK</b>
+  <div>
+    <button onclick="showStudent()">Student</button>
+    <button onclick="showAdminLogin()">Admin</button>
+  </div>
+</header>
+
+<div id="studentPage" class="container">
+<h3>Raise Issue</h3>
+<input id="name" placeholder="Name">
+<input id="regno" placeholder="Register Number">
+<input id="heading" placeholder="Issue Heading">
+<textarea id="description" placeholder="Description"></textarea>
+<button onclick="submitIssue()">Submit</button>
+
+<h3>My Issues</h3>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Issue</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="studentTable"></tbody>
+</table>
+</div>
+
+<div id="adminLogin" class="login-box hidden">
+<h2>Admin Login</h2>
+<input id="adminUser" placeholder="Username">
+<input id="adminPin" type="password" placeholder="PIN">
+<button onclick="adminLoginAction()">Login</button>
+</div>
+
+<div id="adminPage" class="container hidden">
+<h2>Admin Dashboard</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>User</th>
+<th>Issue</th>
+<th>Status</th>
+<th>Response</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="adminTable"></tbody>
+</table>
+</div>
+
+<script>
+
+const API_URL = "http://localhost:5000/api";
+
+
+function showStudent(){
+  document.getElementById("studentPage").style.display="block"
+  document.getElementById("adminLogin").style.display="none"
+  document.getElementById("adminPage").style.display="none"
+ 
+  document.getElementById("studentTable").innerHTML = "";
+}
+
+function showAdminLogin(){
+  document.getElementById("studentPage").style.display="none"
+  document.getElementById("adminLogin").style.display="block"
+  document.getElementById("adminPage").style.display="none"
+}
+
+
+
+async function submitIssue(){
+  const name = document.getElementById("name").value;
+  const regno = document.getElementById("regno").value;
+  const heading = document.getElementById("heading").value;
+  const description = document.getElementById("description").value;
+
+  if(!name || !regno || !heading) return alert("Please fill all fields");
+
+
+  await fetch(`${API_URL}/issues`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, regno, heading, description })
+  });
+
+  alert("Issue Submitted to Server!");
+  loadStudentIssues(); 
+}
+
+async function loadStudentIssues(){
+  const regno = document.getElementById("regno").value;
+  if(!regno) return; 
+
+  
+  const res = await fetch(`${API_URL}/issues/student/${regno}`);
+  const issues = await res.json();
+
+  const tbody = document.getElementById("studentTable");
+  tbody.innerHTML = "";
+  
+  issues.forEach(i => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${i.date}</td>
+        <td>${i.heading}</td>
+        <td><span class="badge ${i.status}">${i.status}</span></td>
+      </tr>`;
+  });
+}
+
+
+
+async function adminLoginAction(){
+  const username = document.getElementById("adminUser").value;
+  const pin = document.getElementById("adminPin").value;
+
+  const res = await fetch(`${API_URL}/admin/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, pin })
+  });
+
+  const data = await res.json();
+
+  if(data.success){
+    document.getElementById("adminLogin").style.display="none";
+    document.getElementById("adminPage").style.display="block";
+    loadAdminIssues();
+  } else {
+    alert("Invalid Login");
+  }
+}
+
+async function loadAdminIssues(){
+  const res = await fetch(`${API_URL}/admin/issues`);
+  const issues = await res.json();
+  
+  const tbody = document.getElementById("adminTable");
+  tbody.innerHTML = "";
+
+  issues.forEach(i => {
+    tbody.innerHTML += `
+    <tr>
+      <td>${i.date}</td>
+      <td>${i.name}<br><small>${i.regno}</small></td>
+      <td><b>${i.heading}</b><br>${i.description}</td>
+      <td><span class="badge ${i.status}">${i.status}</span></td>
+      <td>
+        <textarea id="resp-${i._id}" rows="2">${i.response}</textarea>
+      </td>
+      <td>
+        <button class="approve" onclick="updateStatus('${i._id}', 'Solved')">Solve</button>
+        <button class="reject" onclick="updateStatus('${i._id}', 'Rejected')">Reject</button>
+        <button style="background:#007bff;color:#fff;margin-top:5px" onclick="saveResponseOnly('${i._id}')">Save Note</button>
+      </td>
+    </tr>`;
+  });
+}
+
+async function updateStatus(id, status){
+  const responseText = document.getElementById(`resp-${id}`).value;
+  
+  await fetch(`${API_URL}/admin/issues/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status, response: responseText })
+  });
+
+  loadAdminIssues(); 
+}
+
+async function saveResponseOnly(id){
+  const responseText = document.getElementById(`resp-${id}`).value;
+  
+ 
+  await fetch(`${API_URL}/admin/issues/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ response: responseText })
+  });
+  alert("Response Saved");
+}
+
+
+showStudent();
+</script>
+
+</body>
+</html>
