@@ -11,7 +11,6 @@ document.querySelectorAll('.auth-tab').forEach(tab => {
     });
 });
 
-
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     
