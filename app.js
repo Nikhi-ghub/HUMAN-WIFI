@@ -1,4 +1,4 @@
-ocument.querySelectorAll('.auth-tab').forEach(tab => {
+document.querySelectorAll('.auth-tab').forEach(tab => {
     tab.addEventListener('click', () => {
         const targetTab = tab.dataset.tab;
         
